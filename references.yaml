@@ -1,0 +1,419 @@
+---
+references:
+- id: konstantopoulos2011
+  accessed: "03:54:37"
+  author:
+  - family: Konstantopoulos
+    given: Spyros
+  container-title: Research Synthesis Methods
+  DOI: 10.1002/jrsm.35
+  ISSN: 17592879
+  issue: 1
+  issued: 2011-03
+  key: JBSBX9ZW
+  language: en
+  libraryID: 1
+  page: 61-76
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: Crossref
+  title: "Fixed effects and variance components estimation in
+    three-level meta-analysis: Three-level meta-analysis"
+  title-short: Fixed effects and variance components estimation in
+    three-level meta-analysis
+  type: article-journal
+  URL: "http://doi.wiley.com/10.1002/jrsm.35"
+  volume: 2
+- id: viechtbauer2005
+  accessed: "17:53:22"
+  author:
+  - family: Viechtbauer
+    given: Wolfgang
+  container-title: Journal of Educational and Behavioral Statistics
+  DOI: 10.3102/10769986030003261
+  ISSN: 1076-9986, 1935-1054
+  issue: 3
+  issued: 2005-09
+  key: D58ZIPD3
+  language: en
+  libraryID: 1
+  page: 261-293
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: Crossref
+  title: Bias and efficiency of meta-analytic variance estimators in the
+    random-effects model
+  type: article-journal
+  URL: "http://journals.sagepub.com/doi/10.3102/10769986030003261"
+  volume: 30
+- id: cochran1954
+  accessed: "04:09:53"
+  author:
+  - family: Cochran
+    given: William G.
+  container-title: Biometrics
+  DOI: 10.2307/3001666
+  ISSN: 0006341X
+  issue: 1
+  issued: 1954-03
+  key: XGJDP9D6
+  libraryID: 1
+  page: 101
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: Crossref
+  title: The combination of estimates from different experiments
+  type: article-journal
+  URL: "https://www.jstor.org/stable/3001666?origin=crossref"
+  volume: 10
+- id: knapp2003
+  _eprint: "https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.1482"
+  accessed: "16:20:11"
+  author:
+  - family: Knapp
+    given: Guido
+  - family: Hartung
+    given: Joachim
+  container-title: Statistics in Medicine
+  DOI: 10.1002/sim.1482
+  ISSN: 1097-0258
+  issue: 17
+  issued: 2003
+  key: V8TK72V3
+  language: fr
+  libraryID: 1
+  note: "\\_eprint:
+    https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.1482"
+  page: 2693-2710
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  rights: Copyright © 2003 John Wiley & Sons, Ltd.
+  source: Wiley Online Library
+  title: Improved tests for a random effects meta-regression with a
+    single covariate
+  type: article-journal
+  URL: "https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.1482"
+  volume: 22
+- id: inthout2016
+  accessed: "23:07:00"
+  author:
+  - family: IntHout
+    given: Joanna
+  - family: Ioannidis
+    given: John P. A.
+  - family: Rovers
+    given: Maroeska M.
+  - family: Goeman
+    given: Jelle J.
+  container-title: BMJ Open
+  DOI: 10.1136/bmjopen-2015-010247
+  PMID: 27406637
+  ISSN: 2044-6055, 2044-6055
+  issue: 7
+  issued: 2016-07-01
+  key: 8L3823KC
+  language: en
+  libraryID: 1
+  page: e010247
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: bmjopen.bmj.com
+  tex.ids: IntHout2016PleaRoutinelya,
+  title: Plea for routinely presenting prediction intervals in
+    meta-analysis
+  type: article-journal
+  URL: "https://bmjopen.bmj.com/content/6/7/e010247"
+  volume: 6
+- id: riley2011
+  accessed: "04:31:11"
+  author:
+  - family: Riley
+    given: R. D.
+  - family: Higgins
+    given: J. P. T.
+  - family: Deeks
+    given: J. J.
+  container-title: BMJ
+  DOI: 10.1136/bmj.d549
+  ISSN: 0959-8138, 1468-5833
+  issue: feb10 2
+  issued: 2011-02-10
+  key: 93G5VMPU
+  language: en
+  libraryID: 1
+  page: d549-d549
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: Crossref
+  title: Interpretation of random effects meta-analyses
+  type: article-journal
+  URL: "https://www.bmj.com/lookup/doi/10.1136/bmj.d549"
+  volume: 342
+- id: rcoreteam2021
+  author:
+  - family: R Core Team
+  issued: 2021-05-21
+  key: MWUKNHJZ
+  libraryID: 1
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  publisher: R Foundation for Statistical Computing
+  publisher-place: Vienna, Austria
+  title: "R: a language and environment for statistical computing"
+  title-short: R
+  type: book
+  URL: "http://www.r-project.org/"
+  versionNumber: 4.1.0
+- id: viechtbauer2010
+  accessed: "13:21:04"
+  author:
+  - family: Viechtbauer
+    given: Wolfgang
+  container-title: Journal of Statistical Software
+  DOI: 10.18637/jss.v036.i03
+  ISSN: 1548-7660
+  issue: 3
+  issued: 2010
+  key: V84FAFYC
+  language: en
+  libraryID: 1
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: CrossRef
+  title: Conducting meta-analyses in *R* with the **metafor** package
+  type: article-journal
+  URL: "http://www.jstatsoft.org/v36/i03/"
+  volume: 36
+- id: veroniki2016
+  author:
+  - family: Veroniki
+    given: Areti Angeliki
+  - family: Jackson
+    given: Dan
+  - family: Viechtbauer
+    given: Wolfgang
+  - family: Bender
+    given: Ralf
+  - family: Bowden
+    given: Jack
+  - family: Knapp
+    given: Guido
+  - family: Kuss
+    given: Oliver
+  - family: Higgins
+    given: Julian PT
+  - family: Langan
+    given: Dean
+  - family: Salanti
+    given: Georgia
+  container-title: Research Synthesis Methods
+  container-title-short: RSM
+  DOI: 10.1002/jrsm.1164
+  ISSN: 1759-2887
+  issue: 1
+  issued: 2016-03-01
+  key: E336PA8G
+  language: en
+  libraryID: 1
+  page: 55-79
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: Wiley Online Library
+  title: Methods to estimate the between-study variance and its
+    uncertainty in meta-analysis
+  type: article-journal
+  URL: "http://onlinelibrary.wiley.com/doi/10.1002/jrsm.1164/abstract"
+  volume: 7
+- id: viechtbauer2007
+  accessed: "16:02:07"
+  author:
+  - family: Viechtbauer
+    given: Wolfgang
+  container-title: Zeitschrift für Psychologie
+  container-title-short: Z. Psychol.
+  DOI: 10.1027/0044-3409.215.2.104
+  ISSN: 0044-3409
+  issue: 2
+  issued: 2007-01-01
+  key: 2LLGQPDQ
+  libraryID: 1
+  page: 104-121
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: econtent.hogrefe.com (Atypon)
+  title: Accounting for heterogeneity via random-effects models and
+    moderator analyses in meta-analysis
+  type: article-journal
+  URL: "https://econtent.hogrefe.com/doi/abs/10.1027/0044-3409.215.2.104"
+  volume: 215
+- id: viechtbauer2010a
+  accessed: "20:13:24"
+  author:
+  - family: Viechtbauer
+    given: Wolfgang
+  - family: Cheung
+    given: Mike W.-L.
+  container-title: Research Synthesis Methods
+  DOI: 10.1002/jrsm.11
+  ISSN: 17592879
+  issue: 2
+  issued: 2010-04
+  key: EMDJCCPB
+  language: en
+  libraryID: 1
+  page: 112-125
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: Crossref
+  title: Outlier and influence diagnostics for meta-analysis
+  type: article-journal
+  URL: "http://doi.wiley.com/10.1002/jrsm.11"
+  volume: 1
+- id: Morris2008EstimatingEffect
+  accessed:
+    - year: 2021
+      month: 6
+      day: 11
+  author:
+    - family: Morris
+      given: Scott B.
+  container-title: Organizational Research Methods
+  container-title-short: Org. Res. Meth.
+  DOI: 10.1177/1094428106291059
+  ISSN: 1094-4281
+  issue: '2'
+  issued:
+    - year: 2008
+      month: 4
+      day: 1
+  language: en
+  page: 364-386
+  publisher: SAGE Publications Inc
+  source: SAGE Journals
+  title: Estimating effect sizes from pretest-posttest-control group designs
+  type: article-journal
+  URL: https://doi.org/10.1177/1094428106291059
+  volume: '11'
+- id: Cohen1999POMPscores
+  accessed:
+    - year: 2020
+      month: 4
+      day: 26
+  author:
+    - family: Cohen
+      given: Patricia
+    - family: Cohen
+      given: Jacob
+    - family: Aiken
+      given: Leona S.
+    - family: West
+      given: Stephen G.
+  container-title: Multivariate Behavioral Research
+  DOI: 10.1207/S15327906MBR3403_2
+  ISSN: 0027-3171
+  issue: '3'
+  issued:
+    - year: 1999
+      month: 7
+      day: 1
+  note: '_eprint: https://doi.org/10.1207/S15327906MBR3403_2'
+  page: 315-346
+  publisher: Routledge
+  source: Taylor and Francis+NEJM
+  title: The problem of units and the circumstance for POMP
+  type: article-journal
+  URL: 'https://doi.org/10.1207/S15327906MBR3403_2'
+  volume: '34'
+- id: Riley2010IPDmeta
+  accessed:
+    - year: 2019
+      month: 11
+      day: 3
+  author:
+    - family: Riley
+      given: Richard D.
+    - family: Lambert
+      given: Paul C.
+    - family: Abo-Zaid
+      given: Ghada
+  container-title: BMJ
+  container-title-short: BMJ
+  DOI: 10.1136/bmj.c221
+  ISSN: '0959-8138, 1468-5833'
+  issued:
+    - year: 2010
+      month: 2
+      day: 5
+  language: en
+  page: c221
+  PMID: '20139215'
+  source: www.bmj.com
+  title: >-
+    Meta-analysis of individual participant data: rationale, conduct, and
+    reporting
+  title-short: Meta-analysis of individual participant data
+  type: article-journal
+  URL: 'https://www.bmj.com/content/340/bmj.c221'
+  volume: '340'
+- id: lme4article
+  accessed:
+    - year: 2019
+      month: 3
+      day: 21
+  author:
+    - family: Bates
+      given: Douglas
+    - family: Mächler
+      given: Martin
+    - family: Bolker
+      given: Ben
+    - family: Walker
+      given: Steve
+  container-title: Journal of Statistical Software
+  DOI: 10.18637/jss.v067.i01
+  ISSN: 1548-7660
+  issued:
+    - year: 2015
+  language: en
+  page: '1'
+  source: Crossref
+  title: Fitting linear mixed-effects models using *lme4*
+  type: article-journal
+  URL: 'http://www.jstatsoft.org/v67/i01/'
+  volume: '67'
+- id: Bates2006LmerPvalues
+  accessed:
+    - year: 2020
+      month: 10
+      day: 18
+  author:
+    - family: Bates
+      given: Douglas
+  container-title: r-help listserv
+  genre: Listserv message
+  issued:
+    - year: 2006
+      month: 5
+      day: 19
+  title: '[R] lmer, p-values and all that'
+  type: post
+  URL: https://stat.ethz.ch/pipermail/r-help/2006-May/094765.html
+- id: Ivanova2013TutorialAphasia
+  accessed:
+    - year: 2021
+      month: 6
+      day: 3
+  author:
+    - family: Ivanova
+      given: Maria V.
+    - family: Hallowell
+      given: Brooke
+  container-title: Aphasiology
+  DOI: 10.1080/02687038.2013.805728
+  ISSN: 0268-7038
+  issue: '8'
+  issued:
+    - year: 2013
+      month: 8
+      day: 1
+  note: '_eprint: https://doi.org/10.1080/02687038.2013.805728'
+  page: 891-920
+  publisher: Routledge
+  source: Taylor and Francis+NEJM
+  title: >-
+    A tutorial on aphasia test development in any language: Key substantive and
+    psychometric considerations
+  title-short: A tutorial on aphasia test development in any language
+  type: article-journal
+  URL: https://doi.org/10.1080/02687038.2013.805728
+  volume: '27'
+...

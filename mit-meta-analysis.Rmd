@@ -1,0 +1,219 @@
+---
+title: "MIT meta-analyses"
+author: "Brenton M. Wiernik"
+date: "05/22/2021"
+output: word_document
+bibliography: references.yaml
+csl: https://zotero.org/styles/apa
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = FALSE)
+source("analysis_script_final.R", encoding = "UTF-8")
+library(knitr)
+format_num <- psychmeta::format_num
+```
+
+```{r}
+broader_pi <- ma_ipd_broader_res$estimate[1] + c(-1, 1) * qnorm(.975) * sqrt(ma_ipd_broader_res$estimate[10]^2 +  ma_ipd_broader_res$std.error[1]^2)
+
+trained_contrast_rct <- ma_rct_broader %>%
+    (\(x) {
+        contr <- c(0, 0, 0, -1, 1)
+        cf <- coef(x)
+        vc <- vcov(x)
+        eff <- c(cf %*% contr)
+        se <- sqrt(c(contr %*% vc %*% contr))
+        ci <- eff + c(-1, 1) * qnorm(.975) * se
+        return(c(eff, ci))
+    })()
+trained_contrast_ipd <- ma_ipd_broader %>%
+    (\(x) {
+        contr <- c(0, 0, 0, 0, 0, 0, -1, 1)
+        cf <- fixef(x)
+        vc <- as.matrix(vcov(x))
+        eff <- c(cf %*% contr)
+        se <- sqrt(c(contr %*% vc %*% contr))
+        ci <- eff + c(-1, 1) * qnorm(.975) * se
+        return(c(eff, ci))
+    })()
+```
+
+## Meta-analysis methods
+
+### Outcome metric
+
+To maximize comparability of effects across studies, we used change scores from pretest to posttest as the outcome variable, expressed in *z*-scores. For group-level randomized control trials, we standardized *z*-scores using pooled pretest standard deviation across control and treatment groups. For individual-patient data case series, we computed *z*-scores in one of three ways. For studies that reported results as *z*-scores (e.g., based on test norms), we used the *z*-scores directly. For studies that reported results as percentile scores (e.g., based on test norms), we converted these to *z*-scores using the quantiles of the standard Normal distribution. For other studies, we estimated *z*-scores using the following procedure. We first converted normalized raw scores to reflect the proportion of the maximum possible score [POMP; @Cohen1999POMPscores].[^1] Next, we estimated a three-level random-intercept model for the pretest POMP scores, with individual test scores nested within patients nested within studies. From these models, we used the population intercept as the estimated mean POMP score and the patient-level random effects standard deviation as the estimated POMP score *SD*. We used this mean and *SD* to standardize the pretest and posttest POMP scores.
+
+[^1]: For a small number of studies, it was not possible to determine the maximum or minimum possible scores. For these studies, we computed POMP scores using the maximum and minimum *observed* scores in the sample. Results did not meaningful change if we excluded these studies from results.
+
+### Group-level RCT
+
+For group-level RCT studies, we computed group-level effect sizes as the pretest-posttest-control group Hedges' *g*: $g_{ppc} = (z_{treat_{post}}-z_{treat_{pre}}) - (z_{contr_{post}}-z_{contr_{pre}})$ [@Morris2008EstimatingEffect]. We computed the variance for each *g* using the method of @Morris2008EstimatingEffect. We estimated multilevel mixed effects meta-regression models to account for effect size dependency, with random intercepts for each study. We first fit an overall meta-analysis combining all effect sizes. Second, we fit additional meta-regression models including potential moderator variables. For these meta-regression models, we included random slopes for the ability domain moderator nested within studies [@konstantopoulos2011]. We used a homoskedastic compound symmetric structure for the random effects, estimating a single random effects variance and correlation for all abilities.[^2] We estimated the amount of heterogeneity (i.e., $\tau$) using the restricted maximum-likelihood estimator [@viechtbauer2005]. We computed confidence intervals for meta-regression coefficients and mean treatment effects using the Knapp and Hartung [@knapp2003] $t$-distribution method and for the random effects components using profile likelihood. We estimated models using *R* (version 4.1.0) [@rcoreteam2021] and the *metafor* package (version 2.4-0) [@viechtbauer2010].[^3]
+
+[^2]: For comparison, we also estimated models with with unequal random effects variances across dependent variables. This did not improve model fit based on AICc comparison or likelihood ratio tests.
+
+[^3]: As only 3 group-level RCT studies were identified, it was not possible to apply methods to detect publication-bias or other small-sample effects (e.g., tests of funnel plot asymmetry).
+
+### Individual patient data (IPD) case series
+
+For the IPD case series studies, we computed individual-level scores as the difference between pretest and posttest *z*-scores (the mean difference in this scores is the pretest-posttest Hedges' *g*, $g_{pp}$). We then pooled data across studies using a three-level random-effects IPD meta-analysis, with individual scores nested within patients nested within studies [@Riley2010IPDmeta]. Similar to the group-level RCT meta-analyses, we first fit an overall model including all data points with no moderators, then fit additional models including potential moderator variables as predictors. For these models, we included random intercepts for patients and studies.[^4] We estimated random effects components using REML and computed confidence intervals using profile likelihood. We estimated models using *R* (version 4.1.0) [@rcoreteam2021] and the *lme4* package (version 1.1-27) [@lme4article].
+
+[^4]: Models with random slopes for the ability domain variable did not converge, likely due to the limited co-occurrence of specific pairs of ability categories within any one study.
+
+### Moderator Analyses
+
+For the RCT meta-analyses, we fit a meta-regression model including (1) ability domain, (2) whether the study used a validated test or ad hoc measure, and (3) the domain × validated interaction as moderators. Next, we fit another model adding (1) the mean months post-onset (MPO) across treatment and control groups and (2) the difference in mean MPO between treatment and control groups as additional moderators.
+
+For the IPD meta-analyses, we also fit a meta-regression model including (1) ability domain, (2) whether the study used a validated test or ad hoc measure, and (3) the domain × validated interaction as moderators. We then fit 3 additional models adding one moderator at a time to this baseline model. First, we fit a model adding individual-level MPO. Second, we fit a model adding whether a study used the original MIT protocol or a modified protocol. Third, we fit a model including whether the tested stimuli for the outcome were also included in the training set ("trained") or not ("untrained"). For this third analysis, all studies used ad hoc measures of language comprehension, so the domain and validation moderators were omitted from the model.
+
+## Results
+
+Study-level standardized mean difference scores and meta-analytic mean differences by ability domain are shown in Figure 2. Full meta-regression results tables are available in the online supplemental materials.
+
+#### Figure 2. Results of meta-analyses
+
+```{r, fig.height=10, fig.width=7}
+plot_combo
+```
+
+_Note._ Points are study-level standardized mean pretest-posttest difference scores, either adjusted for a control group (*g<sub>ppc</sub>*) or not (*g<sub>pp</sub>*). Points with different colors drawn from different studies. Large points are mean *g<sub>pp(c)</sub>* for validated measures, with 66% (thick bar) and 95% confidence (thin bar) intervals and *t*-distribution confidence densities. For case reports, one aphasia severity study with *g<sub>ppc</sub>* = \u22124.88 not displayed.
+
+### RCT studies
+
+Overall, RCT studies showed a small to moderate pretest-posttest effect of MIT on aphasia outcomes after accounting for the control group (*g̅* = `r format_num(ma_rct_overall_res$estimate[1], 2)` [95% CI `r format_num(ma_rct_overall_res$conf.low[1], 2)`, `r format_num(ma_rct_overall_res$conf.high[1], 2)`]). These results were primarily based on language expression (repetition) tasks. Other abilities were less commonly assessed. In moderator analyses, effects appeared to be much weaker for communication and language comprehension tasks than for language expression, but confidence intervals for these differences were wide (see Figure 2). Effects were estimated to be somewhat heterogeneous across studies (random effects standard deviation, *τ* = `r format_num(ma_rct_broader_res$estimate[6], 2)` [95% CI `r format_num(ma_rct_broader_res$conf.low[6], 2)`, `r format_num(ma_rct_broader_res$conf.high[6], 2)`]).
+
+#### Moderator analyses
+
+Two studies included several ad hoc measures of language expression. For these measures, treatment effects for untrained items were similar to those for validated measures (∆*g̅* = `r format_num(ma_rct_broader_res$estimate[4], 2)` [95% CI `r format_num(ma_rct_broader_res$conf.low[4], 2)`, `r format_num(ma_rct_broader_res$conf.high[4], 2)`]). As expected, estimated treatment effects were much larger when patients were tested using trained items (∆*g̅* = `r format_num(ma_rct_broader_res$estimate[5], 2)` [95% CI `r format_num(ma_rct_broader_res$conf.low[5], 2)`, `r format_num(ma_rct_broader_res$conf.high[5], 2)`]; trained vs. untrained items contrast: `r format_num(trained_contrast_rct[1], 2)` [95% CI `r format_num(trained_contrast_rct[2], 2)`, `r format_num(trained_contrast_rct[3], 2)`]). The similarity of effects for validated measures and untrained stimuli on unvalidated measures suggests that ad hoc measures may perform similarly in these contexts, so long as assessment stimuli are untraied [but cf. @Ivanova2013TutorialAphasia for a discussion of other benefits of measure validation]. 
+
+When aphasia stage (months post-onset) terms were added to the RCT model, neither mean MPO across groups (∆*g̅* per month = `r format_num(ma_rct_broader_mpo_res$estimate[1], 3)` [95% CI `r format_num(ma_rct_broader_mpo_res$conf.low[1], 3)`, `r format_num(ma_rct_broader_mpo_res$conf.high[1], 3)`]) nor difference in mean MPO between MIT and control groups (∆*g̅* per month = `r format_num(ma_rct_broader_mpo_res$estimate[2], 3)` [95% CI `r format_num(ma_rct_broader_mpo_res$conf.low[2], 3)`, `r format_num(ma_rct_broader_mpo_res$conf.high[2], 3)`]) showed meaningful relationships with MIT treatment effects. Importantly, effect sizes for RCT analyses were drawn from only 3 studies, so these group-level MPO analyses have limited power to estimate impacts of MPO on MIT treatment effects.
+
+### Case report studies
+
+Compared to RCT studies, case series studies without a control group estimated much larger effects of MIT (*g̅* = `r format_num(ma_ipd_overall_res$estimate[1], 2)` [95% CI `r format_num(ma_ipd_overall_res$conf.low[1], 2)`, `r format_num(ma_ipd_overall_res$conf.high[1], 2)`]). As with RCT studies, these results were primarily based on language expression (repetition) tasks. Overall aphasia severity and language comprehension appeared to show somewhat smaller effects, but confidence intervals on these differences were wide. Effects were estimated to be highly heterogeneous across studies (*τ* [between-studies] = `r format_num(ma_ipd_broader_res$estimate[10], 2)` [95% CI `r format_num(ma_ipd_broader_res$conf.low[10], 2)`, `r format_num(ma_ipd_broader_res$conf.high[10], 2)`]), to a degree that MIT was estimated to be harmful in some settings [e.g., 95% normal-theory prediction interval for language expression ranged `r format_num(broader_pi[1], 2)` to `r format_num(broader_pi[2], 2)`; @inthout2016].
+
+#### Moderator analyses
+
+Four studies included several ad hoc measures of language expression. As with RCT studies, treatment effects for untrained items were similar to those for validated measures (∆*g̅* = `r format_num(ma_ipd_broader_res$estimate[7], 2)` [95% CI `r format_num(ma_ipd_broader_res$conf.low[7], 2)`, `r format_num(ma_ipd_broader_res$conf.high[7], 2)`]), but apparent treatment effects were much larger for trained items (∆*g̅* = `r format_num(ma_ipd_broader_res$estimate[8], 2)` [95% CI `r format_num(ma_ipd_broader_res$conf.low[8], 2)`, `r format_num(ma_ipd_broader_res$conf.high[8], 2)`]; trained vs. untrained items contrast: `r format_num(trained_contrast_ipd[1], 2)` [95% CI `r format_num(trained_contrast_ipd[2], 2)`, `r format_num(trained_contrast_ipd[3], 2)`]). 
+
+When aphasia stage (months post-onset) was added to the IPD model, MPO showed a moderate negative relationship with treatment effects (∆*g̅* per month = `r format_num(ma_ipd_broader_mpo_res$estimate[9], 2)` [95% CI `r format_num(ma_ipd_broader_mpo_res$conf.low[9], 2)`, `r format_num(ma_ipd_broader_mpo_res$conf.high[9], 2)`]; estimated effect for 12 months, `r format_num(12 * ma_ipd_broader_mpo_res$estimate[9], 2)` [95% CI `r format_num(12 * ma_ipd_broader_mpo_res$conf.low[9], 2)`, `r format_num(12 * ma_ipd_broader_mpo_res$conf.high[9], 2)`]; estimated effect for 24 months, `r format_num(24 * ma_ipd_broader_mpo_res$estimate[9], 2)` [95% CI `r format_num(24 * ma_ipd_broader_mpo_res$conf.low[9], 2)`, `r format_num(24 * ma_ipd_broader_mpo_res$conf.high[9], 2)`]).
+
+Compared to studies that used the original MIT protocol, studies that used a modified protocol appeared to show larger treatment effects, though the confidence interval on this difference was very wide (∆*g̅* = `r format_num(ma_ipd_broader_modMIT_res$estimate[9], 2)` [95% CI `r format_num(ma_ipd_broader_modMIT_res$conf.low[9], 2)`, `r format_num(ma_ipd_broader_modMIT_res$conf.high[9], 2)`]).
+
+## Supplemental Tables
+
+#### Table 1. Overall RCT meta-analyses
+
+```{r}
+ma_rct_overall_res %>% 
+  select(-type) %>% 
+  mutate(df.residual = na.omit(df.residual)) %>% 
+  relocate(df.residual, .after = "statistic") %>% 
+  insight::format_table() %>% 
+  setNames(c("Term", "Estimate", "SE", "Statistic", "df", "p", "95% conf. int.")) %>% 
+  knitr::kable(align = "lrrrrrr")
+```
+
+*Note.* *g̅* = mean pretest-posttest difference (*g~ppc~*; accounting for control group);
+τ = estimated random effects standard deviation across studies;
+Statistic = *t* value for *g̅* and *Q~E~* value for τ;
+confidence intervals computed using *t* distributions for *g̅* and profile likelihood for τ and ρ.
+
+#### Table 2. RCT meta-analyses of broad ability categories
+
+```{r}
+ma_rct_broader_res %>% 
+  select(-type) %>% 
+  mutate(df.residual = na.omit(df.residual)) %>% 
+  relocate(df.residual, .after = "statistic") %>% 
+  insight::format_table() %>% 
+  setNames(c("Term", "Estimate", "SE", "Statistic", "df", "p", "95% conf. int.")) %>% 
+  knitr::kable(align = "lrrrrrr")
+```
+
+*Note.* *g̅* = mean pretest-posttest difference (*g~ppc~*; accounting for control group);
+τ = estimated random effects standard deviation across studies;
+ρ = estimated correlation among *g* treatment effects between measures of different ability domains across studies;
+Statistic = *t* value for *g̅* and *Q~E~* value for τ;
+confidence intervals computed using *t* distributions for *g̅* and profile likelihood for τ.
+
+#### Table 3. Overall IPD meta-analyses
+
+```{r}
+ma_ipd_overall_res %>% 
+  select(-effect, -group) %>% 
+  mutate(term = c("mean g", "sigma person", "tau", "sigma residual")) %>% 
+  insight::format_table() %>% 
+  setNames(c("Term", "Estimate", "SE", "t", "95% conf. int.")) %>% 
+  knitr::kable(align = "lrrrr")
+```
+
+*Note.* *g̅* = mean pretest-posttest difference (*g~pc~*; not accounting for any control group);
+τ = estimated random effects standard deviation across studies;
+σ (person) = estimated random effects standard deviation across persons (within study);
+σ (measure) = estimated random effects standard deviation across measures (within person);
+confidence intervals computed using profile likelihood; 
+*p* values omitted as the appropriate denominator degrees of freedom for linear mixed effects models is ill-defined [@Bates2006LmerPvalues; @lme4article, pp. 34--35]; inference should be based on the profile likelihood confidence intervals. 
+
+#### Table 4. IPD meta-analyses of broad ability categories
+
+```{r}
+ma_ipd_broader_res %>% 
+  select(-effect, -group) %>% 
+  mutate(term = c(term[1:8], "sigma person", "tau", "sigma residual")) %>% 
+  insight::format_table() %>% 
+  setNames(c("Term", "Estimate", "SE", "t", "95% conf. int.")) %>% 
+  knitr::kable(align = "lrrrr")
+```
+
+*Note.* *g̅* = mean pretest-posttest difference (*g~pc~*; not accounting for any control group);
+∆*g̅* = estimated difference in *g̅* between validated and ad hoc measures;
+note that only language expression included ad hoc measures;
+τ = estimated random effects standard deviation across studies;
+σ (person) = estimated random effects standard deviation across persons (within study);
+σ (measure) = estimated random effects standard deviation across measures (within person);
+confidence intervals computed using profile likelihood; 
+*p* values omitted as the appropriate denominator degrees of freedom for linear mixed effects models is ill-defined [@Bates2006LmerPvalues; @lme4article, pp. 34--35]; inference should be based on the profile likelihood confidence intervals. 
+
+#### Table 5. IPD meta-analyses with aphasia stage (months post-onset) as a moderator
+
+```{r}
+ma_ipd_broader_mpo_res %>% 
+  select(-effect, -group) %>% 
+  mutate(term = c(term[1:9], "sigma person", "tau", "sigma residual")) %>% 
+  insight::format_table() %>% 
+  setNames(c("Term", "Estimate", "SE", "t", "95% conf. int.")) %>% 
+  knitr::kable(align = "lrrrr")
+```
+
+*Note.* *g̅* = mean pretest-posttest difference (*g~pc~*; not accounting for any control group);
+∆*g̅* = estimated difference in *g̅*;
+note that only language expression included ad hoc measures;
+τ = estimated random effects standard deviation across studies;
+σ (person) = estimated random effects standard deviation across persons (within study);
+σ (measure) = estimated random effects standard deviation across measures (within person);
+confidence intervals computed using profile likelihood; 
+*p* values omitted as the appropriate denominator degrees of freedom for linear mixed effects models is ill-defined [@Bates2006LmerPvalues; @lme4article, pp. 34--35]; inference should be based on the profile likelihood confidence intervals. 
+
+#### Table 6. IPD meta-analyses with MIT protocol as a moderator
+
+```{r}
+ma_ipd_broader_modMIT_res %>% 
+  select(-effect, -group) %>% 
+  mutate(term = c(term[1:9], "sigma person", "tau", "sigma residual")) %>% 
+  insight::format_table() %>% 
+  setNames(c("Term", "Estimate", "SE", "t", "95% conf. int.")) %>% 
+  knitr::kable(align = "lrrrr")
+```
+
+*Note.* *g̅* = mean pretest-posttest difference (*g~pc~*; not accounting for any control group);
+∆*g̅* = estimated difference in *g̅*;
+note that only language expression included ad hoc measures;
+τ = estimated random effects standard deviation across studies;
+σ (person) = estimated random effects standard deviation across persons (within study);
+σ (measure) = estimated random effects standard deviation across measures (within person);
+confidence intervals computed using profile likelihood; 
+*p* values omitted as the appropriate denominator degrees of freedom for linear mixed effects models is ill-defined [@Bates2006LmerPvalues; @lme4article, pp. 34--35]; inference should be based on the profile likelihood confidence intervals. 
+
+## References
