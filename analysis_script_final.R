@@ -37,7 +37,22 @@ v_gppc <- function(n1, pre1, post1, sd1, n2, pre2, post2, sd2, rho = .90) {
   return(vg)
 }
 
+m_diff <- function(n1, pre1, post1, sd1) {
+  df <- 2 * n1 - 2
+  cp <- sqrt(2 / df) * exp(lgamma(df / 2) - lgamma((df - 1) / 2))
+  g <- cp * (post1 - pre1) / sd1
+  return(g)
+}
 
+v_m_diff <- function(n1, pre1, post1, sd1, rho = .90) {
+  delta <- m_diff(n1, pre1, post1, sd1)
+  df <- 2 * n1 - 2
+  cp <- sqrt(2 / df) * exp(lgamma(df / 2) - lgamma((df - 1) / 2))
+  vg <- cp^2 *
+    2 * (1 - rho) / n1 +
+    delta^2 / (2 * n1 - 2)
+  return(vg)
+}
 
 ma_dat_all <-
   read_excel(here("data", "mit-meta-analsysis-data.xlsx"),
@@ -167,7 +182,16 @@ ma_dat_group <-
                          `t1|raw|µ|groupC`,
                          `t2|raw|µ|groupC`,
                          `t1|raw|SD|groupC`,
-                         rho = .90)
+                         rho = .90),
+         m_diff_c = m_diff(`N|groupC`,
+                           `t1|raw|µ|groupC`,
+                           `t2|raw|µ|groupC`,
+                           `t1|raw|SD|groupC`),
+         v_m_diff_c = v_m_diff(`N|groupC`,
+                               `t1|raw|µ|groupC`,
+                               `t2|raw|µ|groupC`,
+                               `t1|raw|SD|groupC`,
+                               rho = .90)
          ) %>%
   left_join(categ_scheme,
             by = c(`Test battery` = "TEST BATTERY",
@@ -483,3 +507,39 @@ write_csv(ma_dat_ipd, file = "data_ipd.csv")
 ggsave("plots.pdf", plot_combo, device = cairo_pdf, height = 10, width = 7)
 ggsave("plots.svg", plot_combo, device = svg, height = 10, width = 7)
 ggsave("plots.png", plot_combo, device = png, type="cairo", dpi = 300, height = 10, width = 7)
+
+ma_control_group_change <- rma.mv(
+  m_diff_c ~ 0 + broader * unvalidated, v_m_diff_c,
+  random = ~ broader | .id,
+  data = ma_dat_group,
+  struct = "CS",
+  test = "t"
+)
+ma_control_group_change_res <-
+  tidy(ma_control_group_change, conf.int = TRUE) %>%
+  bind_rows(
+    tibble(
+      term = "tau",
+      type = "ran_pars",
+      estimate = confint(ma_control_group_change)[[1]][[1]][2,1],
+      statistic = ma_control_group_change$QE,
+      df.residual = df.residual(ma_control_group_change),
+      p.value = ma_control_group_change$QEp,
+      conf.low = confint(ma_control_group_change)[[1]][[1]][2,2],
+      conf.high = confint(ma_control_group_change)[[1]][[1]][2,3]
+    ),
+    tibble(
+      term = "rho",
+      type = "ran_pars",
+      estimate = confint(ma_control_group_change)[[2]][[1]][1,1],
+      conf.low = confint(ma_control_group_change)[[2]][[1]][1,2],
+      conf.high = confint(ma_control_group_change)[[2]][[1]][1,3]
+    )
+  )
+
+ma_t1_broader_mpo <- lmer(
+  formula = t1_z ~ 0 + broader + unvalidated + MPO + (1 | .id / .person),
+  data = ma_dat_ipd
+)
+ma_t1_broader_mpo_res <- tidy(ma_t1_broader_mpo, conf.int = TRUE, conf.method = "profile")
+
